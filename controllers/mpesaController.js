@@ -27,7 +27,7 @@ exports.token = (req, res, next) => {
     `${consumerKey}:${consumerSecret}`,
     "utf-8"
   ).toString("base64")}`;
-  
+
   //Calling the DARAJA authorization API
   axios
     .get(url, {
