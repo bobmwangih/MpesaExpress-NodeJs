@@ -26,8 +26,8 @@ PASSKEY=bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
 SHORTCODE=the correct paybill/till number (174379)
 CONSUMERKEY=(consumer key)
 CONSUMERSECRET=(consumer secret)
-AUTH_URL=[Authentication Api URL]https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials
-STK_URL=[StkPush APi URL]https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+AUTH_URL= [Authentication Api URL]https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials
+STK_URL= [StkPush APi URL]https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
 PHONE=payer phone number
 ACCOUNT=the description of the bill 
 CALLBACKURL=endpoint to handle the response of the stkPush API
@@ -37,5 +37,5 @@ Testing needs you to clone this repo.
 
 Run [npm start]
 
-call the endpoint `domain/stk/push` to call the token generation request and stkPush request.
+Do a ``post`` request to the endpoint `{your root domain}/stk/push` and watch as the ````magic```` unfolds!!.
 
