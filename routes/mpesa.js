@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { mpesaWebhook, mpesaPassword, token, stkPush } = require("../controllers/mpesaController");
+const { mpesaWebhook, token, stkPush } = require("../controllers/mpesaController");
 
-
-router.get("/token", token);
-router.post("/token", token);
+//Endpoint Route
 router.post("/stk/push", token, stkPush);
+
+//callBack Route
 router.post("/hooks/mpesa", mpesaWebhook);
 module.exports = router;
