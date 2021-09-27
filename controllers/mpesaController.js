@@ -3,6 +3,8 @@ require("dotenv").config();
 const prettyjson = require("prettyjson");
 const dateTime = require("node-datetime");
 const axios = require("axios");
+const { mpesaTransactionDBConnector } = require('../mongo/mongo');
+const mpesaTransactionsSchema = require('../schemas/mpesaTransactionsSchema')
 
 
 const passkey = process.env.PASSKEY;
@@ -92,14 +94,36 @@ exports.mpesaWebhook = (req, res) => {
       ResponseCode: status,
       ResponseDesc: "success",
     };
+    //connect to the db
+    //storing the payers details from the callBack
+    const paidDetails = req.body.Body.stkCallback.CallbackMetadata.Item;
+
+    const mpesaTransactions = {
+      payingPhoneNumber : paidDetails[4].Value,
+      transationDate:paidDetails[3].Value,
+      mpesaReceiptNumber:paidDetails[1].Value,
+      paidAmount:paidDetails[0].Value,
+      merchantRequestID:req.body.Body.stkCallback.MerchantRequestID,
+      checkoutRequestID:req.body.Body.stkCallback.CheckoutRequestID
+    };
+    
+    mpesaTransactionDBConnector().then(async(mongoose) => {
+      try {
+       await new mpesaTransactionsSchema(mpesaTransactions).save()
+       console.log('data saved successfully');
+      } finally {
+          mongoose.connection.close();
+      }
+  })
     //response to safaricom message
-    res.json(message);
+    res.send(message);
+
   } else {
     let message = {
       ResponseCode: status,
       ResponseDesc: "fail",
     };
     //response to safaricom message
-    res.json(message);
+    res.send(message);
   }
 };
